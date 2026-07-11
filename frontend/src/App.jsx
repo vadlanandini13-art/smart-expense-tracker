@@ -1,6 +1,7 @@
 import "./App.css";
 import Navbar from "./components/Navbar";
 import SummaryCard from "./components/SummaryCard";
+import ExpenseForm from "./components/ExpenseForm";
 function App() {
   return (
     <div className="container">
@@ -12,6 +13,7 @@ function App() {
         <SummaryCard title="🔴 Expenses" amount="0" />
       </div>
       <button>+ Add New Expense</button>
+      <ExpenseForm />
     </div>
   );
 }
