@@ -6,6 +6,10 @@ import ExpenseForm from "./components/ExpenseForm";
 function App() {
   const [expenses, setExpenses] = useState([]);
   const [editingExpense, setEditingExpense] = useState(null);
+  const totalExpenses = expenses.reduce((sum, expense) => sum + Number(expense.amount),0);
+  const totalIncome = 0;
+
+const totalBalance = totalIncome - totalExpenses;
 const fetchExpenses = () => {
   fetch("http://127.0.0.1:8000/expenses")
     .then((response) => response.json())
@@ -37,9 +41,9 @@ useEffect(() => {
       <Navbar />
       <p>Manage your income and expenses easily.</p>
       <div className="cards">
-        <SummaryCard title="💰 Total Balance" amount="0" />
-        <SummaryCard title="🟢 Income" amount="0" />
-        <SummaryCard title="🔴 Expenses" amount="0" />
+        <SummaryCard title="💰 Total Balance" amount={`₹${totalBalance}`} />
+        <SummaryCard title="🟢 Income" amount={`₹${totalIncome}`} />
+        <SummaryCard title="🔴 Expenses" amount={`₹${totalExpenses}`} />
       </div>
       <button>+ Add New Expense</button>
       <ExpenseForm onExpenseAdded={fetchExpenses} editingExpense={editingExpense}/>
