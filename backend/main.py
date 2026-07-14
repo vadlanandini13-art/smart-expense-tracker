@@ -77,3 +77,11 @@ def get_expenses():
         })
 
     return expenses
+
+@app.delete("/expense/{expense_id}")
+def delete_expense(expense_id: int):
+    sql = "DELETE FROM expenses WHERE id = %s"
+    cursor.execute(sql, (expense_id,))
+    db.commit()
+
+    return {"message": "Expense deleted successfully!"}

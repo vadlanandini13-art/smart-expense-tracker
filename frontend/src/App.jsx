@@ -12,7 +12,23 @@ const fetchExpenses = () => {
     .then((data) => setExpenses(data))
     .catch((error) => console.error(error));
 };
+const deleteExpense = async (id) => {
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/expense/${id}`, {
+      method: "DELETE",
+    });
 
+    const data = await response.json();
+
+    alert(data.message);
+
+    fetchExpenses();
+
+  } catch (error) {
+    console.error(error);
+    alert("Delete failed!");
+  }
+};
 useEffect(() => {
   fetchExpenses();
 }, []);
@@ -36,6 +52,7 @@ useEffect(() => {
       <th>Amount</th>
       <th>Category</th>
       <th>Date</th>
+      <th>Action</th>
     </tr>
   </thead>
 
@@ -46,6 +63,9 @@ useEffect(() => {
         <td>₹{expense.amount}</td>
         <td>{expense.category}</td>
         <td>{expense.date}</td>
+        <td>
+          <button onClick={() => deleteExpense(expense.id)}>Delete</button>
+        </td>
       </tr>
     ))}
   </tbody>
