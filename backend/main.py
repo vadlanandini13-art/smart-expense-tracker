@@ -85,3 +85,24 @@ def delete_expense(expense_id: int):
     db.commit()
 
     return {"message": "Expense deleted successfully!"}
+
+@app.put("/expense/{expense_id}")
+def update_expense(expense_id: int, expense: Expense):
+    sql = """
+    UPDATE expenses
+    SET title=%s, amount=%s, category=%s, expense_date=%s
+    WHERE id=%s
+    """
+
+    values = (
+        expense.title,
+        expense.amount,
+        expense.category,
+        expense.date,
+        expense_id,
+    )
+
+    cursor.execute(sql, values)
+    db.commit()
+
+    return {"message": "Expense updated successfully!"}

@@ -1,27 +1,51 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-function ExpenseForm({ onExpenseAdded }) {
+function ExpenseForm({ onExpenseAdded, editingExpense }) {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("Food");
   const [date, setDate] = useState("");
 
-  async function handleSubmit() {
-    const expense = {
-      title,
-      amount,
-      category,
-      date,
-    };
+  useEffect(() => {
+    if (editingExpense) {
+      setTitle(editingExpense.title);
+      setAmount(editingExpense.amount);
+      setCategory(editingExpense.category);
+      setDate(editingExpense.date);
+    }
+  }, [editingExpense]);
 
+  async function handleSubmit() {
     try {
-      const response = await fetch("http://127.0.0.1:8000/expense", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(expense),
-      });
+      const expense = {
+        title,
+        amount,
+        category,
+        date,
+      };
+
+      let response;
+
+      if (editingExpense) {
+        response = await fetch(
+          `http://127.0.0.1:8000/expense/${editingExpense.id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(expense),
+          }
+        );
+      } else {
+        response = await fetch("http://127.0.0.1:8000/expense", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(expense),
+        });
+      }
 
       const data = await response.json();
 
@@ -29,10 +53,10 @@ function ExpenseForm({ onExpenseAdded }) {
 
       alert(data.message);
 
-      // Refresh the expense list
+      // Refresh expense list
       onExpenseAdded();
 
-      // Clear the form
+      // Clear form
       setTitle("");
       setAmount("");
       setCategory("Food");
@@ -46,7 +70,9 @@ function ExpenseForm({ onExpenseAdded }) {
 
   return (
     <div className="expense-form">
-      <h2>Add Expense</h2>
+      <h2>
+        {editingExpense ? "Edit Expense" : "Add Expense"}
+      </h2>
 
       <input
         type="text"
@@ -78,7 +104,9 @@ function ExpenseForm({ onExpenseAdded }) {
         onChange={(e) => setDate(e.target.value)}
       />
 
-      <button onClick={handleSubmit}>Save Expense</button>
+      <button onClick={handleSubmit}>
+        {editingExpense ? "Update Expense" : "Save Expense"}
+      </button>
     </div>
   );
 }

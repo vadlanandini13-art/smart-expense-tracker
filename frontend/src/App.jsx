@@ -5,7 +5,7 @@ import SummaryCard from "./components/SummaryCard";
 import ExpenseForm from "./components/ExpenseForm";
 function App() {
   const [expenses, setExpenses] = useState([]);
-
+  const [editingExpense, setEditingExpense] = useState(null);
 const fetchExpenses = () => {
   fetch("http://127.0.0.1:8000/expenses")
     .then((response) => response.json())
@@ -42,7 +42,7 @@ useEffect(() => {
         <SummaryCard title="🔴 Expenses" amount="0" />
       </div>
       <button>+ Add New Expense</button>
-      <ExpenseForm onExpenseAdded={fetchExpenses}/>
+      <ExpenseForm onExpenseAdded={fetchExpenses} editingExpense={editingExpense}/>
       <h2>Saved Expenses</h2>
 
 <table>
@@ -52,7 +52,8 @@ useEffect(() => {
       <th>Amount</th>
       <th>Category</th>
       <th>Date</th>
-      <th>Action</th>
+      <th>Edit</th>
+      <th>Delete</th>
     </tr>
   </thead>
 
@@ -63,6 +64,10 @@ useEffect(() => {
         <td>₹{expense.amount}</td>
         <td>{expense.category}</td>
         <td>{expense.date}</td>
+        <td>
+          <button onClick={() => setEditingExpense(expense)}>Edit</button>
+        </td>
+
         <td>
           <button onClick={() => deleteExpense(expense.id)}>Delete</button>
         </td>
