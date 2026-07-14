@@ -6,6 +6,7 @@ import ExpenseForm from "./components/ExpenseForm";
 function App() {
   const [expenses, setExpenses] = useState([]);
   const [editingExpense, setEditingExpense] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const totalExpenses = expenses.reduce((sum, expense) => sum + Number(expense.amount),0);
   const totalIncome = 0;
 
@@ -46,6 +47,7 @@ useEffect(() => {
         <SummaryCard title="🔴 Expenses" amount={`₹${totalExpenses}`} />
       </div>
       <button>+ Add New Expense</button>
+      <input type="text" placeholder="Search expenses..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
       <ExpenseForm onExpenseAdded={fetchExpenses} editingExpense={editingExpense}/>
       <h2>Saved Expenses</h2>
 
@@ -62,22 +64,29 @@ useEffect(() => {
   </thead>
 
   <tbody>
-    {expenses.map((expense) => (
+  {expenses
+    .filter((expense) =>
+      expense.title.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .map((expense) => (
       <tr key={expense.id}>
         <td>{expense.title}</td>
         <td>₹{expense.amount}</td>
         <td>{expense.category}</td>
         <td>{expense.date}</td>
         <td>
-          <button onClick={() => setEditingExpense(expense)}>Edit</button>
+          <button onClick={() => setEditingExpense(expense)}>
+            Edit
+          </button>
         </td>
-
         <td>
-          <button onClick={() => deleteExpense(expense.id)}>Delete</button>
+          <button onClick={() => deleteExpense(expense.id)}>
+            Delete
+          </button>
         </td>
       </tr>
     ))}
-  </tbody>
+</tbody>
 </table>
     </div>
   );
