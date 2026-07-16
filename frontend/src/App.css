@@ -1,96 +1,208 @@
-body {
+* {
   margin: 0;
-  background: #f5f7fa;
-  font-family: Arial, Helvetica, sans-serif;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  background: #f4f7fb;
+  color: #333;
 }
 
 .container {
-  text-align: center;
-  margin-top: 80px;
+  width: 95%;
+  max-width: 1200px;
+  margin: 30px auto;
 }
 
-h1 {
-  color: #2c3e50;
-  font-size: 42px;
+h1,
+h2 {
+  margin-bottom: 15px;
 }
 
 p {
+  margin-bottom: 20px;
   color: #666;
-  font-size: 18px;
 }
 
-button {
-  background: #27ae60;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  font-size: 18px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #219150;
-}
-
-nav {
-  margin-bottom: 30px;
-}
-
-nav h2 {
-  color: #2c3e50;
-  font-size: 36px;
-}
+/* Summary Cards */
 
 .cards {
   display: flex;
-  justify-content: center;
   gap: 20px;
-  margin: 40px 0;
   flex-wrap: wrap;
+  margin-bottom: 30px;
 }
 
 .card {
+  flex: 1;
+  min-width: 250px;
   background: white;
-  width: 220px;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  border-radius: 14px;
+  padding: 25px;
+  box-shadow: 0 8px 18px rgba(0,0,0,.08);
+  transition: .3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
 }
 
 .card h3 {
   color: #555;
+  margin-bottom: 10px;
 }
 
 .card h2 {
-  color: #2c3e50;
+  color: #0b6efd;
 }
+
+/* Form */
 
 .expense-form {
   background: white;
-  width: 400px;
-  margin: 40px auto;
   padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.expense-form h2 {
-  margin-bottom: 20px;
+  border-radius: 14px;
+  margin-top: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 8px 18px rgba(0,0,0,.08);
+  max-width:700px;
+  margin:30px auto;
 }
 
 .expense-form input,
 .expense-form select {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
+  padding: 12px;
+  margin-top: 12px;
   border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  box-sizing: border-box;
+  border: 1px solid #ddd;
 }
 
 .expense-form button {
   width: 100%;
+  margin-top: 18px;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #0b6efd;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
 }
 
+.expense-form button:hover {
+  background: #0958d9;
+}
+
+/* Top controls */
+
+input[type="text"] {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-right: 10px;
+}
+
+select {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+button {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 8px;
+  background: #198754;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: .9;
+}
+
+/* Table */
+
+table {
+  width: 100%;
+  margin-top: 25px;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 18px rgba(0,0,0,.08);
+}
+tbody tr:nth-child(even){
+    background:#f8f9fa;
+}
+
+th {
+  background: #0b6efd;
+  color: white;
+  padding: 15px;
+}
+
+td {
+  padding: 14px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+tr:hover {
+  background: #f7f9fc;
+}
+
+/* Chart */
+
+.recharts-responsive-container {
+  margin-top: 30px;
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 8px 18px rgba(0,0,0,.08);
+}
+
+/* Responsive */
+
+@media (max-width:768px){
+
+.cards{
+flex-direction:column;
+}
+
+table{
+font-size:14px;
+}
+
+input[type="text"],
+select,
+button{
+width:100%;
+margin-bottom:10px;
+}
+}
+/* Navbar */
+
+.navbar {
+  background: white;
+  padding: 20px;
+  margin-bottom: 25px;
+  border-radius: 14px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.navbar h2 {
+  color: #0b6efd;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+/* Section headings */
+
+.expense-form h2,
+.container > h2 {
+  color: #222;
+}

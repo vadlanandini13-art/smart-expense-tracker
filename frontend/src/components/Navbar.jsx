@@ -1,6 +1,6 @@
 function Navbar() {
   return (
-    <nav>
+    <nav className="navbar">
       <h2>💰 Smart Expense Tracker</h2>
     </nav>
   );

@@ -27,6 +27,7 @@ app.add_middleware(
 class Expense(BaseModel):
     title: str
     amount: str
+    type: str
     category: str
     date: str
 
@@ -39,16 +40,14 @@ def home():
 @app.post("/expense")
 def add_expense(expense: Expense):
 
-    sql = """
-    INSERT INTO expenses (title, amount, category, expense_date)
-    VALUES (%s, %s, %s, %s)
-    """
+    sql = """INSERT INTO expenses (title, amount, category, expense_date, type)VALUES (%s, %s, %s, %s, %s)"""
 
     values = (
         expense.title,
         expense.amount,
         expense.category,
-        expense.date
+        expense.date,
+        expense.type
     )
 
     cursor.execute(sql, values)
@@ -73,7 +72,8 @@ def get_expenses():
             "title": row[1],
             "amount": float(row[2]),
             "category": row[3],
-            "date": str(row[4])
+            "date": str(row[4]),
+            "type": row[5],
         })
 
     return expenses
@@ -88,17 +88,14 @@ def delete_expense(expense_id: int):
 
 @app.put("/expense/{expense_id}")
 def update_expense(expense_id: int, expense: Expense):
-    sql = """
-    UPDATE expenses
-    SET title=%s, amount=%s, category=%s, expense_date=%s
-    WHERE id=%s
-    """
+    sql = """UPDATE expenses SET title=%s, amount=%s, category=%s, expense_date=%s,type=%s, WHERE id=%s"""
 
     values = (
         expense.title,
         expense.amount,
         expense.category,
         expense.date,
+        expense.type,
         expense_id,
     )
 

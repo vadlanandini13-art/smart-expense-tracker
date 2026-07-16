@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 function ExpenseForm({ onExpenseAdded, editingExpense }) {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
+  const [type, setType] = useState("Expense");
   const [category, setCategory] = useState("Food");
   const [date, setDate] = useState("");
 
@@ -10,6 +11,7 @@ function ExpenseForm({ onExpenseAdded, editingExpense }) {
     if (editingExpense) {
       setTitle(editingExpense.title);
       setAmount(editingExpense.amount);
+      setType(editingExpense.type);
       setCategory(editingExpense.category);
       setDate(editingExpense.date);
     }
@@ -20,6 +22,7 @@ function ExpenseForm({ onExpenseAdded, editingExpense }) {
       const expense = {
         title,
         amount,
+        type,
         category,
         date,
       };
@@ -59,6 +62,7 @@ function ExpenseForm({ onExpenseAdded, editingExpense }) {
       // Clear form
       setTitle("");
       setAmount("");
+      setType("Expense");
       setCategory("Food");
       setDate("");
 
@@ -71,7 +75,7 @@ function ExpenseForm({ onExpenseAdded, editingExpense }) {
   return (
     <div className="expense-form">
       <h2>
-        {editingExpense ? "Edit Expense" : "Add Expense"}
+        {editingExpense ? "Edit Transaction" : "New Transaction"}
       </h2>
 
       <input
@@ -87,7 +91,10 @@ function ExpenseForm({ onExpenseAdded, editingExpense }) {
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
       />
-
+      <select value={type} onChange={(e) => setType(e.target.value)}>
+        <option>Expense</option>
+        <option>Income</option>
+      </select>
       <select
         value={category}
         onChange={(e) => setCategory(e.target.value)}
@@ -96,6 +103,10 @@ function ExpenseForm({ onExpenseAdded, editingExpense }) {
         <option>Transport</option>
         <option>Shopping</option>
         <option>Entertainment</option>
+        <option>Salary</option>
+        <option>Freelance</option>
+        <option>Investment</option>
+        <option>Other</option>
       </select>
 
       <input
