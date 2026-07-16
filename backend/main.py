@@ -2,14 +2,20 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import mysql.connector
+from dotenv import load_dotenv
+import os
+
 
 app = FastAPI()
 # Connect to MySQL
+load_dotenv()
 db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="nandini!1313!",
-    database="expense_tracker"
+    host=os.getenv("DB_HOST"),
+    port=int(os.getenv("DB_PORT")),
+    user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
+    database=os.getenv("DB_NAME"),
+    ssl_ca="ca.pem"
 )
 
 cursor = db.cursor()
