@@ -18,6 +18,7 @@ function ExpenseForm({ onExpenseAdded, editingExpense }) {
   }, [editingExpense]);
 
   async function handleSubmit() {
+    console.log("Save button clicked");
     try {
       const expense = {
         title,
@@ -31,7 +32,7 @@ function ExpenseForm({ onExpenseAdded, editingExpense }) {
 
       if (editingExpense) {
         response = await fetch(
-          `http://127.0.0.1:8000/expense/${editingExpense.id}`,
+          `https://smart-expense-tracker-kle9.onrender.com/expense/${editingExpense.id}`,
           {
             method: "PUT",
             headers: {
@@ -41,22 +42,22 @@ function ExpenseForm({ onExpenseAdded, editingExpense }) {
           }
         );
       } else {
-        response = await fetch("http://127.0.0.1:8000/expense", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(expense),
-        });
+        response = await fetch(
+          "https://smart-expense-tracker-kle9.onrender.com/expense",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(expense),
+          }
+        );
       }
-
+      console.log(response.status);
       const data = await response.json();
-
-      console.log(data);
 
       alert(data.message);
 
-      // Refresh expense list
       onExpenseAdded();
 
       // Clear form
@@ -80,7 +81,7 @@ function ExpenseForm({ onExpenseAdded, editingExpense }) {
 
       <input
         type="text"
-        placeholder="Expense Title"
+        placeholder="Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
@@ -91,10 +92,15 @@ function ExpenseForm({ onExpenseAdded, editingExpense }) {
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
       />
-      <select value={type} onChange={(e) => setType(e.target.value)}>
+
+      <select
+        value={type}
+        onChange={(e) => setType(e.target.value)}
+      >
         <option>Expense</option>
         <option>Income</option>
       </select>
+
       <select
         value={category}
         onChange={(e) => setCategory(e.target.value)}
@@ -116,7 +122,7 @@ function ExpenseForm({ onExpenseAdded, editingExpense }) {
       />
 
       <button onClick={handleSubmit}>
-        {editingExpense ? "Update Expense" : "Save Expense"}
+        {editingExpense ? "Update Transaction" : "Save Transaction"}
       </button>
     </div>
   );

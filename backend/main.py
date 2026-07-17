@@ -103,7 +103,7 @@ def update_expense(expense_id: int, expense: Expense):
         expense.category,
         expense.date,
         expense.type,
-        expense_id,
+        expense_id
     )
 
     cursor.execute(sql, values)

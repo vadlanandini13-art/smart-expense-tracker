@@ -13,7 +13,7 @@ function App() {
 
   // Fetch expenses
   const fetchExpenses = () => {
-    fetch("http://127.0.0.1:8000/expenses")
+    fetch("https://smart-expense-tracker-kle9.onrender.com/expenses")
       .then((response) => response.json())
       .then((data) => setExpenses(data))
       .catch((error) => console.error(error));
@@ -23,12 +23,15 @@ function App() {
     fetchExpenses();
   }, []);
 
-  // Delete expense
+  // Delete transaction
   const deleteExpense = async (id) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/expense/${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `https://smart-expense-tracker-kle9.onrender.com/expense/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       const data = await response.json();
       alert(data.message);
@@ -57,7 +60,7 @@ function App() {
       <p>Manage your income and expenses easily.</p>
 
       <div className="cards">
-        <SummaryCard title="💰 Total Balance" amount={totalBalance}/>
+        <SummaryCard title="💰 Total Balance" amount={totalBalance} />
         <SummaryCard title="🟢 Income" amount={totalIncome} />
         <SummaryCard title="🔴 Expenses" amount={totalExpenses} />
       </div>
@@ -70,11 +73,16 @@ function App() {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <select value={filterType} onChange={(e) => setFilterType(e.target.value)}>
+
+      <select
+        value={filterType}
+        onChange={(e) => setFilterType(e.target.value)}
+      >
         <option>All</option>
         <option>Income</option>
         <option>Expense</option>
       </select>
+
       <ExpenseForm
         onExpenseAdded={fetchExpenses}
         editingExpense={editingExpense}
@@ -97,17 +105,17 @@ function App() {
 
         <tbody>
           {expenses
-  .filter((expense) =>
-    expense.title
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase())
-  )
-  .filter((expense) =>
-    filterType === "All"
-      ? true
-      : expense.type === filterType
-  )
-  .map((expense) => (
+            .filter((expense) =>
+              expense.title
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase())
+            )
+            .filter((expense) =>
+              filterType === "All"
+                ? true
+                : expense.type === filterType
+            )
+            .map((expense) => (
               <tr key={expense.id}>
                 <td>{expense.title}</td>
                 <td>₹{expense.amount}</td>
@@ -116,15 +124,25 @@ function App() {
                 <td>{expense.date}</td>
 
                 <td>
-                  <button style={{ background: "#ffc107", color: "black" }} 
-                          onClick={() => setEditingExpense(expense)}>
+                  <button
+                    style={{
+                      background: "#ffc107",
+                      color: "black",
+                    }}
+                    onClick={() => setEditingExpense(expense)}
+                  >
                     Edit
                   </button>
                 </td>
 
                 <td>
-                  <button style={{ background: "#dc3545" }}
-                          onClick={() => deleteExpense(expense.id)}>
+                  <button
+                    style={{
+                      background: "#dc3545",
+                      color: "white",
+                    }}
+                    onClick={() => deleteExpense(expense.id)}
+                  >
                     Delete
                   </button>
                 </td>
@@ -132,6 +150,7 @@ function App() {
             ))}
         </tbody>
       </table>
+
       <ExpenseChart expenses={expenses} />
     </div>
   );
