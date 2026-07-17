@@ -11,8 +11,7 @@ frontend/dist/
 .vscode/
 
 # Environment files
-.env
+backend/.env
 
 # macOS
 .DS_Store
-backend/ca.pem
