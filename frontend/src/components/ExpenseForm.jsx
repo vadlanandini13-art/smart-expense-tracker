@@ -18,7 +18,6 @@ function ExpenseForm({ onExpenseAdded, editingExpense }) {
   }, [editingExpense]);
 
   async function handleSubmit() {
-    console.log("Save button clicked");
     try {
       const expense = {
         title,
@@ -31,7 +30,8 @@ function ExpenseForm({ onExpenseAdded, editingExpense }) {
       let response;
 
       if (editingExpense) {
-        response = await fetch(`https://smart-expense-tracker-mnse.onrender.com/expense/${editingExpense.id}`
+        response = await fetch(
+          `https://smart-expense-tracker-mnse.onrender.com/expense/${editingExpense.id}`,
           {
             method: "PUT",
             headers: {
@@ -52,20 +52,17 @@ function ExpenseForm({ onExpenseAdded, editingExpense }) {
           }
         );
       }
-      console.log(response.status);
-      const data = await response.json();
 
+      const data = await response.json();
       alert(data.message);
 
       onExpenseAdded();
 
-      // Clear form
       setTitle("");
       setAmount("");
       setType("Expense");
       setCategory("Food");
       setDate("");
-
     } catch (error) {
       console.error(error);
       alert("Something went wrong!");
