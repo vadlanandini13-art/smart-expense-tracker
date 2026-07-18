@@ -13,7 +13,7 @@ function App() {
 
   // Fetch expenses
   const fetchExpenses = () => {
-    fetch("https://https://smart-expense-tracker-mnse.onrender.com/expenses")
+    fetch("https://smart-expense-tracker-mnse.onrender.com/expenses")
       .then((response) => response.json())
       .then((data) => setExpenses(data))
       .catch((error) => console.error(error));
@@ -27,7 +27,7 @@ function App() {
   const deleteExpense = async (id) => {
     try {
       const response = await fetch(
-        `https://https://smart-expense-tracker-mnse.onrender.com/expense/${id}`,
+        `https://smart-expense-tracker-mnse.onrender.com/expense/${id}`,
         {
           method: "DELETE",
         }
