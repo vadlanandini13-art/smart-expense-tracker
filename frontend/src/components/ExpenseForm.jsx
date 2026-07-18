@@ -32,7 +32,7 @@ function ExpenseForm({ onExpenseAdded, editingExpense }) {
 
       if (editingExpense) {
         response = await fetch(
-          `https://smart-expense-tracker-kle9.onrender.com/expense/${editingExpense.id}`,
+          `https://https://smart-expense-tracker-mnse.onrender.com/expense/${editingExpense.id}`,
           {
             method: "PUT",
             headers: {
@@ -43,7 +43,7 @@ function ExpenseForm({ onExpenseAdded, editingExpense }) {
         );
       } else {
         response = await fetch(
-          "https://smart-expense-tracker-kle9.onrender.com/expense",
+          "https://https://smart-expense-tracker-mnse.onrender.com/expense",
           {
             method: "POST",
             headers: {
