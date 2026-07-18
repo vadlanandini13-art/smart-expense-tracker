@@ -53,6 +53,13 @@ function ExpenseForm({ onExpenseAdded, editingExpense }) {
         );
       }
 
+      if (!response.ok) {
+        const text = await response.text();
+        console.error("Server response:", text);
+        alert("Server Error: " + response.status);
+         return;
+      }
+
       const data = await response.json();
       alert(data.message);
 

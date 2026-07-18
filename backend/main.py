@@ -5,10 +5,10 @@ import mysql.connector
 from dotenv import load_dotenv
 import os
 
-
 app = FastAPI()
-# Connect to MySQL
+
 load_dotenv()
+
 db = mysql.connector.connect(
     host=os.getenv("DB_HOST"),
     port=int(os.getenv("DB_PORT")),
@@ -21,19 +21,20 @@ db = mysql.connector.connect(
 
 cursor = db.cursor()
 
-# Allow React to communicate with FastAPI
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://smart-expense-tracker-nuzvejajr-nandini-projects1.vercel.app",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Data model
 class Expense(BaseModel):
     title: str
-    amount: str
+    amount: float
     type: str
     category: str
     date: str
@@ -47,22 +48,25 @@ def home():
 @app.post("/expense")
 def add_expense(expense: Expense):
 
-    sql = """INSERT INTO expenses (title, amount, category, expense_date, type)VALUES (%s, %s, %s, %s, %s)"""
+    sql = """
+    INSERT INTO expenses
+    (title, amount, category, expense_date, type)
+    VALUES (%s, %s, %s, %s, %s)
+    """
 
     values = (
         expense.title,
         expense.amount,
         expense.category,
         expense.date,
-        expense.type
+        expense.type,
     )
 
     cursor.execute(sql, values)
     db.commit()
 
-    return {
-        "message": "Expense saved to MySQL successfully!"
-    }
+    return {"message": "Expense saved successfully!"}
+
 
 @app.get("/expenses")
 def get_expenses():
@@ -85,17 +89,33 @@ def get_expenses():
 
     return expenses
 
+
 @app.delete("/expense/{expense_id}")
 def delete_expense(expense_id: int):
-    sql = "DELETE FROM expenses WHERE id = %s"
-    cursor.execute(sql, (expense_id,))
+
+    cursor.execute(
+        "DELETE FROM expenses WHERE id=%s",
+        (expense_id,)
+    )
+
     db.commit()
 
     return {"message": "Expense deleted successfully!"}
 
+
 @app.put("/expense/{expense_id}")
 def update_expense(expense_id: int, expense: Expense):
-    sql = """UPDATE expenses SET title=%s, amount=%s, category=%s, expense_date=%s,type=%s, WHERE id=%s"""
+
+    sql = """
+    UPDATE expenses
+    SET
+        title=%s,
+        amount=%s,
+        category=%s,
+        expense_date=%s,
+        type=%s
+    WHERE id=%s
+    """
 
     values = (
         expense.title,
@@ -103,7 +123,7 @@ def update_expense(expense_id: int, expense: Expense):
         expense.category,
         expense.date,
         expense.type,
-        expense_id
+        expense_id,
     )
 
     cursor.execute(sql, values)
