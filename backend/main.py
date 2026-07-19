@@ -82,9 +82,9 @@ def get_expenses():
             "id": row[0],
             "title": row[1],
             "amount": float(row[2]),
-            "category": row[3],
-            "date": str(row[4]),
-            "type": row[5],
+            "type": row[3],          # Fixed
+            "category": row[4],      # Fixed
+            "date": str(row[5]),     # Fixed
         })
 
     return expenses
